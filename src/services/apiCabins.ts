@@ -1,10 +1,8 @@
+import type { Cabin } from "../utils/types";
 import { supabase } from "./supabase";
 
-export async function getAllCabins() {
+export async function getAllCabins(): Promise<Cabin[]> {
   const { data, error } = await supabase.from("cabins").select("*");
-  if (error) {
-    console.log("Error Fetching Cabins");
-    throw new Error(error.message);
-  }
-  return data;
+  if (error) throw new Error(error.message);
+  return data || [];
 }
