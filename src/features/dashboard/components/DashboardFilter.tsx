@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import type { FilterOption } from "../../utils/types";
+import type { FilterOption } from "../../../utils/types";
 import styles from "./DashboardFilter.module.css";
 
 function DashboardFilter() {

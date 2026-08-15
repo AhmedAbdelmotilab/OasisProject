@@ -1,5 +1,5 @@
 import { getToday } from "../utils/helpers";
-import supabase from "./supabase";
+import { supabase } from "./supabase";
 import type { Booking } from "../utils/types";
 
 export async function getBooking(id: number): Promise<Booking> {

@@ -3,7 +3,7 @@ import type { FormEvent } from "react";
 
 import styles from "./UpdateUserDataForm.module.css";
 
-import { useUser } from "./useUser";
+import { useUser } from "../hooks/useUser";
 
 function UpdateUserDataForm() {
   // We don't need the loading state, and can immediately use the user data, because we know that it has already been loaded at this point

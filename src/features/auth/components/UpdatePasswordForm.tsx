@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import styles from "./UpdatePasswordForm.module.css";
 
-import { useUpdateUser } from "./useUpdateUser";
+import { useUpdateUser } from "../hooks/useUpdateUser";
 
 type PasswordFormValues = {
   password: string;

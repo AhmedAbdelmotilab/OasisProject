@@ -1,7 +1,7 @@
-import BookingDataBox from "../../features/bookings/BookingDataBox";
+import BookingDataBox from "../../bookings/components/BookingDataBox";
 
-import { useMoveBack } from "../../hooks/useMoveBack";
-import type { Booking } from "../../utils/types";
+import { useMoveBack } from "../../../hooks/useMoveBack";
+import type { Booking } from "../../../utils/types";
 import styles from "./CheckinBooking.module.css";
 
 function CheckinBooking() {

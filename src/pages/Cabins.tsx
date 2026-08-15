@@ -1,3 +1,4 @@
+import CabinTable from "../features/cabins/components/CabinTable";
 import styles from "./Cabins.module.css";
 
 function Cabins() {
@@ -8,6 +9,7 @@ function Cabins() {
         <p>Filter / Sort</p>
       </div>
       <div className={styles.vertical}></div>
+      <CabinTable />
     </>
   );
 }

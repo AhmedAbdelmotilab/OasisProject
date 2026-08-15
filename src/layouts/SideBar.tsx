@@ -1,5 +1,5 @@
-import Logo from "../../Components/Logo";
-import MainNav from "../../Components/MainNav";
+import Logo from "./Logo";
+import MainNav from "./MainNav";
 import styles from "./SideBar.module.css";
 export default function SideBar() {
   return (

@@ -1,6 +1,6 @@
 // Search for: 'jo', 'fa', 'mar', 'emm', 'ah'
 
-import type { Guest } from "../utils/types";
+import type { Guest } from "../../../utils/types";
 
 export const guests: Guest[] = [
   {

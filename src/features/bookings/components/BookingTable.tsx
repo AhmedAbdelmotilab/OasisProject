@@ -1,6 +1,6 @@
 import type { CSSProperties } from "react";
 import BookingRow from "./BookingRow";
-import type { Booking } from "../../utils/types";
+import type { Booking } from "../../../utils/types";
 import styles from "./BookingTable.module.css";
 
 function BookingTable() {

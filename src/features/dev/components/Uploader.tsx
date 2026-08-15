@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { isFuture, isPast, isToday } from "date-fns";
-import supabase from "../services/supabase";
+import { supabase } from "../../../services/supabase";
 import styles from "./Uploader.module.css";
-import { subtractDates } from "../utils/helpers";
+import { subtractDates } from "../../../utils/helpers";
 
-import { bookings } from "./data-bookings";
-import { cabins } from "./data-cabins";
-import { guests } from "./data-guests";
+import { bookings } from "../data/data-bookings";
+import { cabins } from "../data/data-cabins";
+import { guests } from "../data/data-guests";
 
 async function deleteGuests() {
   const { error } = await supabase.from("guests").delete().gt("id", 0);

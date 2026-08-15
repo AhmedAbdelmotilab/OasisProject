@@ -1,5 +1,5 @@
-import { supabaseUrl } from "../services/supabase";
-import type { Cabin } from "../utils/types";
+import { supabaseUrl } from "../../../services/supabase";
+import type { Cabin } from "../../../utils/types";
 
 const imageUrl = `${supabaseUrl}/storage/v1/object/public/cabin-images/`;
 

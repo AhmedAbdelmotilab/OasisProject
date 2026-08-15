@@ -1,7 +1,7 @@
 import { format, isToday } from "date-fns";
 
-import { formatCurrency, formatDistanceFromNow } from "../../utils/helpers";
-import type { Booking } from "../../utils/types";
+import { formatCurrency, formatDistanceFromNow } from "../../../utils/helpers";
+import type { Booking } from "../../../utils/types";
 import styles from "./BookingRow.module.css";
 
 type BookingRowProps = {

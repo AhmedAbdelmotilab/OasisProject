@@ -1,4 +1,4 @@
-import supabase from "./supabase";
+import { supabase } from "./supabase";
 import type { Settings } from "../utils/types";
 
 export async function getSettings(): Promise<Settings> {

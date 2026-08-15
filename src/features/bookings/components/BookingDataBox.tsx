@@ -6,8 +6,8 @@ import {
   HiOutlineHomeModern,
 } from "react-icons/hi2";
 
-import { formatDistanceFromNow, formatCurrency } from "../../utils/helpers";
-import type { Booking } from "../../utils/types";
+import { formatDistanceFromNow, formatCurrency } from "../../../utils/helpers";
+import type { Booking } from "../../../utils/types";
 import styles from "./BookingDataBox.module.css";
 
 type BookingDataBoxProps = {
