@@ -1,10 +1,22 @@
 import { useQuery } from "@tanstack/react-query";
+import { useEffect } from "react";
 import { getAllCabins } from "../../../services/apiCabins";
+import { useCabinsStore } from "../store/useCabinsStore";
 import CabinRow from "./CabinRow";
 import styles from "./CabinTable.module.css";
 
 export default function CabinTable() {
-  const { data: cabins } = useQuery({ queryKey: ["cabins"], queryFn: getAllCabins });
+  const { cabins, setCabins } = useCabinsStore();
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ["cabins"],
+    queryFn: getAllCabins,
+  });
+  useEffect(() => {
+    if (data) setCabins(data);
+  }, [data, setCabins]);
+  if (isError && !isLoading) {
+    return <p>error while fetching the data 📈 </p>;
+  }
   return (
     <div className={styles.table}>
       <header className={styles.header}>

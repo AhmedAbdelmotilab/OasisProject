@@ -6,16 +6,14 @@ interface CabinRowProps {
 }
 
 export default function CabinRow({ cabin }: CabinRowProps) {
-  const { name, regularPrice, discount, image, description, maxCapacity } = cabin;
-
   return (
     <div className={styles.row}>
-      <img className={styles.img} src={image} alt={name} />
-      <div className={styles.cabin}>{name}</div>
-      <div>{description}</div>
-      <div className={styles.price}>{regularPrice}</div>
-      <div className={styles.discount}>{discount}</div>
-      <div className={styles.price}>{maxCapacity}</div>
+      <img className={styles.img} src={cabin.image} alt={cabin.name} />
+      <div className={styles.cabin}>{cabin.name}</div>
+      <div>{cabin.description}</div>
+      <div className={styles.price}>{cabin.regularPrice}</div>
+      <div className={styles.discount}>{cabin.discount}</div>
+      <div className={styles.price}>{cabin.maxCapacity}</div>
     </div>
   );
 }
