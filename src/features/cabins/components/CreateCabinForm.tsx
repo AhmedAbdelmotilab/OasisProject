@@ -28,47 +28,28 @@ function CreateCabinForm() {
         <label className={styles.label} htmlFor="discount">
           Discount
         </label>
-        <input
-          className={styles.input}
-          type="number"
-          id="discount"
-          defaultValue={0}
-        />
+        <input className={styles.input} type="number" id="discount" defaultValue={0} />
       </div>
 
       <div className={styles.formRow}>
         <label className={styles.label} htmlFor="description">
           Description for website
         </label>
-        <textarea
-          className={styles.textarea}
-          id="description"
-          defaultValue=""
-        />
+        <textarea className={styles.textarea} id="description" defaultValue="" />
       </div>
 
       <div className={styles.formRow}>
         <label className={styles.label} htmlFor="image">
           Cabin photo
         </label>
-        <input
-          type="file"
-          id="image"
-          accept="image/*"
-          className={styles.fileInput}
-        />
+        <input type="file" id="image" accept="image/*" className={styles.fileInput} />
       </div>
 
       <div className={styles.formRow}>
-        <button
-          type="reset"
-          className={`${styles.secondary} ${styles.medium}`}
-        >
+        <button type="reset" className={`${styles.secondary} ${styles.medium}`}>
           Cancel
         </button>
-        <button className={`${styles.primary} ${styles.medium}`}>
-          Edit cabin
-        </button>
+        <button className={`${styles.primary} ${styles.medium}`}>Add cabin</button>
       </div>
     </form>
   );
