@@ -11,6 +11,7 @@
 }
 
 .img {
+  margin-left: 1rem;
   display: block;
   width: 6.4rem;
   aspect-ratio: 3 / 2;

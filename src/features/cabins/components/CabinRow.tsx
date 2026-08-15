@@ -1,4 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import toast from "react-hot-toast";
 import { FaTrashAlt } from "react-icons/fa";
 import { deleteCabinById } from "../../../services/apiCabins";
 import { formatCurrency } from "../../../utils/helpers";
@@ -15,9 +16,12 @@ export default function CabinRow({ cabin }: CabinRowProps) {
     mutationKey: ["deleteCabin"],
     mutationFn: (id: number) => deleteCabinById(id),
     onSuccess: () => {
+      toast.success(`Cabin Was Successfully Deleted`);
       queryClient.invalidateQueries({ queryKey: ["cabins"] });
     },
-    onError: () => {},
+    onError: (error: string) => {
+      toast.error(error);
+    },
   });
   return (
     <div className={styles.row}>

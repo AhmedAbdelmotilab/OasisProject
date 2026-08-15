@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
+import toast from "react-hot-toast";
 import { FaPlus } from "react-icons/fa";
 import { Spinner } from "../../../components/Spinner";
 import { getAllCabins } from "../../../services/apiCabins";
@@ -17,7 +18,7 @@ export default function CabinTable() {
     if (data) setCabins(data);
   }, [data, setCabins]);
   if (isError && !isLoading) {
-    return <p>error while fetching the data 📈 </p>;
+    return toast.error("error while fetching the data 📈");
   }
   if (isLoading) return <Spinner />;
   return (

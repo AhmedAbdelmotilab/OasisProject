@@ -8,7 +8,9 @@ export default function AppLayout() {
       <Header />
       <SideBar />
       <main className={styles.main}>
-        <Outlet />
+        <div className={styles.div}>
+          <Outlet />
+        </div>
       </main>
     </div>
   );
