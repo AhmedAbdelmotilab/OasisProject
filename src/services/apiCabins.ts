@@ -6,3 +6,7 @@ export async function getAllCabins(): Promise<Cabin[]> {
   if (error) throw new Error(error.message);
   return data || [];
 }
+export async function deleteCabinById(id: number) {
+  const { error } = await supabase.from("cabins").delete().eq("id", id);
+  if (error) throw new Error("Cabin could not be deleted");
+}
