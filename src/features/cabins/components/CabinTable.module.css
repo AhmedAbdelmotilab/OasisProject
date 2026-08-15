@@ -4,11 +4,12 @@
   background-color: var(--color-grey-0);
   border-radius: 7px;
   overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
 .header {
   display: grid;
-  grid-template-columns: 0.6fr 1.8fr 2.2fr 1fr 1fr 1fr;
+  grid-template-columns: 0.6fr 1.8fr 2.2fr 1fr 1fr 1fr 1fr;
   column-gap: 2.4rem;
   align-items: center;
   background-color: var(--color-grey-50);
