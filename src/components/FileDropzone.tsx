@@ -4,7 +4,6 @@ import { useCallback, useRef, useState } from "react";
 interface FileDropzoneProps {
   accept?: Record<string, string[]>;
   maxFiles?: number;
-  maxSize?: number;
   value?: File[];
   onChange?: (files: File[]) => void;
   disabled?: boolean;
@@ -25,7 +24,6 @@ function formatBytes(bytes: number): string {
 function FileDropzone({
   accept = { "image/*": [] },
   maxFiles = 1,
-  maxSize = 3_000_000,
   value = [],
   onChange,
   disabled = false,
@@ -41,7 +39,6 @@ function FileDropzone({
   const handleFiles = useCallback(
     (newFiles: File[]) => {
       const accepted = newFiles.slice(0, maxFiles).filter((file) => {
-        if (maxSize && file.size > maxSize) return false;
         if (accept) {
           const matches = Object.keys(accept).some((type) =>
             type.endsWith("/*") ? file.type.startsWith(type.slice(0, -1)) : file.type === type,
@@ -53,7 +50,7 @@ function FileDropzone({
 
       onChange?.(accepted);
     },
-    [accept, maxFiles, maxSize, onChange],
+    [accept, maxFiles, onChange],
   );
 
   const handleDrop = useCallback(
@@ -123,11 +120,6 @@ function FileDropzone({
             Upload {maxFiles === 1 ? "a file" : "files"}
           </p>
           <p className="text-base font-semibold text-(--color-grey-500)">Drag and drop or click to upload</p>
-          {maxSize && (
-            <p className="text-base font-semibold text-(--color-grey-500)">
-              Max size: {formatBytes(maxSize)}
-            </p>
-          )}
         </div>
       ) : (
         <div className="flex w-full h-full flex-col items-center justify-center gap-2">

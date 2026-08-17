@@ -87,13 +87,12 @@ function UpdateCabinForm({ cabin }: UpdateCabinFormProps) {
             <FileDropzone
               accept={{ "image/*": [] }}
               maxFiles={1}
-              maxSize={3_000_000}
               value={value}
               onChange={onChange}
             />
           )}
         />
-        {errors.image && <p className={styles.error}>{errors.image.message}</p>}
+        {errors.image && <p className={`${styles.error} text-center`}>{errors.image.message}</p>}
       </div>
 
       <div className={styles.formRow}>
