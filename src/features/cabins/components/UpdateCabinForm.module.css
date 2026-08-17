@@ -68,30 +68,6 @@
   height: 8rem;
 }
 
-.fileInput {
-  font-size: 1.4rem;
-  border-radius: var(--border-radius-sm);
-}
-
-.fileInput::file-selector-button {
-  font: inherit;
-  font-weight: 500;
-  padding: 0.8rem 1.2rem;
-  margin-right: 1.2rem;
-  border-radius: var(--border-radius-sm);
-  border: none;
-  color: var(--color-brand-50);
-  background-color: var(--color-brand-600);
-  cursor: pointer;
-  transition:
-    color 0.2s,
-    background-color 0.2s;
-}
-
-.fileInput::file-selector-button:hover {
-  background-color: var(--color-brand-700);
-}
-
 .medium {
   font-size: 1.4rem;
   padding: 1.2rem 1.6rem;
@@ -150,7 +126,7 @@
     width: 100%;
   }
 
-.formRow:has(button):not(.fullWidth) {
+  .formRow:has(button):not(.fullWidth) {
     flex-direction: column;
   }
 

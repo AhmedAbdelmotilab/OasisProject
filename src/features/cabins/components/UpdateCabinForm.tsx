@@ -1,10 +1,10 @@
 import { useState } from "react";
+import FileDropzone from "../../../components/FileDropzone";
 import type { Cabin } from "../../../utils/types";
 import { type CabinFormValues } from "../hooks/cabinSchema";
 import { useCabinForm } from "../hooks/useCabinForm";
 import { useUpdateCabin } from "../hooks/useUpdateCabin";
 import { useCabinsStore } from "../store/useCabinsStore";
-import FileDropzone from "../../../components/FileDropzone";
 import styles from "./UpdateCabinForm.module.css";
 
 interface UpdateCabinFormProps {
@@ -15,7 +15,7 @@ function UpdateCabinForm({ cabin }: UpdateCabinFormProps) {
   const { setEditingCabinId } = useCabinsStore();
   const { id: editId, image: currentImage, ...editValues } = cabin;
   const isEditSession = Boolean(editId);
-  const { register, handleSubmit, reset, setValue, errors } = useCabinForm(isEditSession, editValues);
+  const { register, handleSubmit, reset, errors } = useCabinForm(isEditSession, editValues);
   const [files, setFiles] = useState<File[]>([]);
   const { submitCabin, isPending } = useUpdateCabin(isEditSession, editId, currentImage);
 

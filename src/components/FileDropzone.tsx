@@ -1,5 +1,5 @@
+import { UploadIcon, XIcon } from "lucide-react";
 import { useCallback, useRef, useState } from "react";
-import { UploadIcon } from "lucide-react";
 
 interface FileDropzoneProps {
   accept?: Record<string, string[]>;
@@ -40,20 +40,16 @@ function FileDropzone({
 
   const handleFiles = useCallback(
     (newFiles: File[]) => {
-      const accepted = newFiles
-        .slice(0, maxFiles)
-        .filter((file) => {
-          if (maxSize && file.size > maxSize) return false;
-          if (accept) {
-            const matches = Object.keys(accept).some((type) =>
-              type.endsWith("/*")
-                ? file.type.startsWith(type.slice(0, -1))
-                : file.type === type,
-            );
-            if (!matches) return false;
-          }
-          return true;
-        });
+      const accepted = newFiles.slice(0, maxFiles).filter((file) => {
+        if (maxSize && file.size > maxSize) return false;
+        if (accept) {
+          const matches = Object.keys(accept).some((type) =>
+            type.endsWith("/*") ? file.type.startsWith(type.slice(0, -1)) : file.type === type,
+          );
+          if (!matches) return false;
+        }
+        return true;
+      });
 
       onChange?.(accepted);
     },
@@ -100,7 +96,7 @@ function FileDropzone({
     <div
       role="button"
       tabIndex={disabled ? -1 : 0}
-      className={`flex w-full flex-col items-center justify-center min-h-40 rounded-md border-2 border-dashed p-4 text-sm transition-all cursor-pointer ${
+      className={`flex w-full h-40 flex-col items-center justify-center rounded-md border-2 border-dashed p-4 text-lg font-medium transition-all cursor-pointer ${
         dragging
           ? "border-(--color-brand-600) bg-(--color-brand-50)"
           : "border-(--color-grey-300) bg-(--color-grey-0) hover:border-(--color-brand-600) hover:bg-(--color-grey-50)"
@@ -119,62 +115,50 @@ function FileDropzone({
         onChange={handleChange}
       />
       {files.length === 0 ? (
-        <div className="flex flex-col items-center gap-1">
-          <div className="flex size-8 items-center justify-center rounded-md bg-(--color-grey-100) text-(--color-grey-600)">
-            <UploadIcon size={16} />
+        <div className="flex flex-col items-center gap-1.5">
+          <div className="flex size-11 items-center justify-center rounded-md bg-(--color-grey-100) text-(--color-grey-600)">
+            <UploadIcon size={22} />
           </div>
-          <p className="text-sm font-medium text-(--color-grey-700)">
+          <p className="text-lg font-bold text-(--color-grey-700)">
             Upload {maxFiles === 1 ? "a file" : "files"}
           </p>
-          <p className="text-xs text-(--color-grey-500)">
-            Drag and drop or click to upload
-          </p>
+          <p className="text-base font-semibold text-(--color-grey-500)">Drag and drop or click to upload</p>
           {maxSize && (
-            <p className="text-xs text-(--color-grey-500)">
+            <p className="text-base font-semibold text-(--color-grey-500)">
               Max size: {formatBytes(maxSize)}
             </p>
           )}
         </div>
       ) : (
-        <div className="flex w-full flex-col items-center gap-2">
+        <div className="flex w-full h-full flex-col items-center justify-center gap-2">
           {files.map((file, index) => (
             <div
               key={`${file.name}-${index}`}
-              className="flex w-full items-center gap-3 rounded bg-(--color-grey-100) p-2.5"
+              className="flex w-full items-center gap-3 rounded-md border border-(--color-grey-200) bg-(--color-grey-100) p-3"
             >
-              <div className="flex size-8 items-center justify-center rounded-md bg-(--color-grey-200) text-(--color-grey-600)">
-                <UploadIcon size={16} />
+              <div className="flex size-10 shrink-0 items-center justify-center rounded-md bg-(--color-grey-0) text-(--color-brand-600) shadow-sm">
+                <UploadIcon size={18} />
               </div>
               <div className="flex-1 min-w-0">
-                <p className="truncate text-[1.3rem] font-medium text-(--color-grey-700)">
+                <p className="truncate text-lg font-bold text-(--color-grey-700)" title={file.name}>
                   {file.name}
                 </p>
-                <p className="text-[1.1rem] text-(--color-grey-500)">
-                  {formatBytes(file.size)}
-                </p>
+                <p className="text-base font-semibold text-(--color-grey-500)">{formatBytes(file.size)}</p>
               </div>
-              <span
-                className="flex size-5 shrink-0 items-center justify-center rounded-full bg-(--color-grey-200) text-(--color-grey-600) text-sm cursor-pointer hover:bg-red-100 hover:text-red-700"
-                role="button"
-                tabIndex={0}
+              <button
+                type="button"
+                className="flex size-9 shrink-0 items-center justify-center rounded-md border border-(--color-grey-200) bg-(--color-grey-0) text-(--color-grey-500) transition-colors hover:border-red-200 hover:bg-red-50 hover:text-red-600"
+                aria-label={`Remove ${file.name}`}
                 onClick={(e) => {
                   e.stopPropagation();
                   handleRemove(index);
                 }}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" || e.key === " ") {
-                    e.stopPropagation();
-                    handleRemove(index);
-                  }
-                }}
               >
-                ×
-              </span>
+                <XIcon size={18} />
+              </button>
             </div>
           ))}
-          <p className="text-xs text-(--color-grey-500)">
-            Drag and drop or click to replace
-          </p>
+          <p className="text-base font-semibold text-(--color-grey-500)">Drag and drop or click to replace</p>
         </div>
       )}
     </div>
