@@ -1,11 +1,17 @@
 import Logo from "./Logo";
 import MainNav from "./MainNav";
 import styles from "./SideBar.module.css";
-export default function SideBar() {
+
+interface SideBarProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+export default function SideBar({ isOpen, onClose }: SideBarProps) {
   return (
-    <aside className={styles.sideBar}>
+    <aside className={`${styles.sideBar} ${isOpen ? styles.open : ""}`}>
       <Logo />
-      <MainNav />
+      <MainNav onNavigate={onClose} />
     </aside>
   );
 }

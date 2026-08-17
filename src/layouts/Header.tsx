@@ -1,4 +1,21 @@
+import { FaBars } from "react-icons/fa";
 import styles from "./Header.module.css";
-export default function Header() {
-  return <header className={styles.header}>Header</header>;
+
+interface HeaderProps {
+  onToggleSidebar: () => void;
+}
+
+export default function Header({ onToggleSidebar }: HeaderProps) {
+  return (
+    <header className={styles.header}>
+      <button
+        className={styles.menuBtn}
+        onClick={onToggleSidebar}
+        aria-label="Toggle menu"
+      >
+        <FaBars />
+      </button>
+      Header
+    </header>
+  );
 }

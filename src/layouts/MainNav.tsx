@@ -8,7 +8,11 @@ import {
 import { NavLink } from "react-router-dom";
 import styles from "./MainNav.module.css";
 
-function MainNav() {
+interface MainNavProps {
+  onNavigate?: () => void;
+}
+
+function MainNav({ onNavigate }: MainNavProps) {
   return (
     <nav>
       <ul className={styles.navList}>
@@ -16,6 +20,7 @@ function MainNav() {
           <NavLink
             to="/dashboard"
             className={({ isActive }) => `${styles.navLink} ${isActive ? styles.active : ""}`}
+            onClick={onNavigate}
           >
             <HiOutlineHome />
             <span>Home</span>
@@ -25,6 +30,7 @@ function MainNav() {
           <NavLink
             to="/bookings"
             className={({ isActive }) => `${styles.navLink} ${isActive ? styles.active : ""}`}
+            onClick={onNavigate}
           >
             <HiOutlineCalendarDays />
             <span>Bookings</span>
@@ -34,6 +40,7 @@ function MainNav() {
           <NavLink
             to="/cabins"
             className={({ isActive }) => `${styles.navLink} ${isActive ? styles.active : ""}`}
+            onClick={onNavigate}
           >
             <HiOutlineHomeModern />
             <span>Cabins</span>
@@ -43,6 +50,7 @@ function MainNav() {
           <NavLink
             to="/users"
             className={({ isActive }) => `${styles.navLink} ${isActive ? styles.active : ""}`}
+            onClick={onNavigate}
           >
             <HiOutlineUsers />
             <span>Users</span>
@@ -52,6 +60,7 @@ function MainNav() {
           <NavLink
             to="/settings"
             className={({ isActive }) => `${styles.navLink} ${isActive ? styles.active : ""}`}
+            onClick={onNavigate}
           >
             <HiOutlineCog6Tooth />
             <span>Settings</span>
