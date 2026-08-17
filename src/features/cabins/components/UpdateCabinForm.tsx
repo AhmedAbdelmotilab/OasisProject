@@ -1,16 +1,23 @@
-import type { CabinFormValues } from "../hooks/cabinSchema";
+import type { Cabin } from "../../../utils/types";
+import { type CabinFormValues } from "../hooks/cabinSchema";
 import { useCabinForm } from "../hooks/useCabinForm";
-import { useCreateCabin } from "../hooks/useCreateCabin";
+import { useUpdateCabin } from "../hooks/useUpdateCabin";
 import { useCabinsStore } from "../store/useCabinsStore";
-import styles from "./CreateCabinForm.module.css";
+import styles from "./UpdateCabinForm.module.css";
 
-function CreateCabinForm() {
-  const { setShowOpenModal } = useCabinsStore();
-  const { register, handleSubmit, reset, errors } = useCabinForm();
-  const { addNewCabin, isPending } = useCreateCabin();
+interface UpdateCabinFormProps {
+  cabin: Cabin;
+}
+
+function UpdateCabinForm({ cabin }: UpdateCabinFormProps) {
+  const { setEditingCabinId } = useCabinsStore();
+  const { id: editId, image: currentImage, ...editValues } = cabin;
+  const isEditSession = Boolean(editId);
+  const { register, handleSubmit, reset, errors } = useCabinForm(isEditSession, editValues);
+  const { submitCabin, isPending } = useUpdateCabin(isEditSession, editId, currentImage);
 
   function onSubmit(data: CabinFormValues) {
-    addNewCabin(data);
+    submitCabin(data);
   }
 
   return (
@@ -57,7 +64,6 @@ function CreateCabinForm() {
           className={styles.input}
           type="number"
           id="discount"
-          defaultValue={0}
           {...register("discount", { valueAsNumber: true })}
         />
         {errors.discount && <p className={styles.error}>{errors.discount.message}</p>}
@@ -84,18 +90,18 @@ function CreateCabinForm() {
           type="button"
           onClick={() => {
             reset();
-            setShowOpenModal(false);
+            setEditingCabinId(null);
           }}
           className={`${styles.secondary} ${styles.medium}`}
         >
           Cancel
         </button>
         <button type="submit" disabled={isPending} className={`${styles.primary} ${styles.medium}`}>
-          Add cabin
+          {isEditSession ? "Edit cabin" : "Create cabin"}
         </button>
       </div>
     </form>
   );
 }
 
-export default CreateCabinForm;
+export default UpdateCabinForm;
