@@ -117,7 +117,7 @@ function FileDropzone({
             <UploadIcon size={22} />
           </div>
           <p className="text-lg font-bold text-(--color-grey-700)">
-            Upload {maxFiles === 1 ? "a file" : "files"}
+            Upload {maxFiles === 1 ? "a image" : "image"}
           </p>
           <p className="text-base font-semibold text-(--color-grey-500)">Drag and drop or click to upload</p>
         </div>
