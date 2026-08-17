@@ -9,6 +9,7 @@ export function useCabinForm(isEditSession = false, editValues: CabinEditValues 
     register,
     handleSubmit,
     reset,
+    setValue,
     formState: { errors },
   } = useForm<CabinFormValues>({
     resolver: zodResolver(getCabinSchema(isEditSession)),
@@ -16,5 +17,5 @@ export function useCabinForm(isEditSession = false, editValues: CabinEditValues 
     defaultValues: isEditSession ? editValues : undefined,
   });
 
-  return { register, handleSubmit, reset, errors };
+  return { register, handleSubmit, reset, setValue, errors };
 }

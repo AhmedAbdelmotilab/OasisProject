@@ -8,14 +8,18 @@ import styles from "./CreateCabinForm.module.css";
 
 function CreateCabinForm() {
   const { setShowOpenModal } = useCabinsStore();
-  const { register, handleSubmit, reset, errors } = useCabinForm();
+  const { register, handleSubmit, reset, setValue, errors } = useCabinForm();
   const [files, setFiles] = useState<File[]>([]);
   const { addNewCabin, isPending } = useCreateCabin();
 
-  function onSubmit(data: CabinFormValues) {
+  function syncToForm(fileList: File[]) {
     const dt = new DataTransfer();
-    files.forEach((f) => dt.items.add(f));
-    addNewCabin({ ...data, image: dt.files });
+    fileList.forEach((f) => dt.items.add(f));
+    setValue("image", dt.files, { shouldValidate: true });
+  }
+
+  function onSubmit(data: CabinFormValues) {
+    addNewCabin(data);
   }
 
   return (
@@ -81,7 +85,10 @@ function CreateCabinForm() {
           maxFiles={1}
           maxSize={3_000_000}
           value={files}
-          onChange={setFiles}
+          onChange={(newFiles) => {
+            setFiles(newFiles);
+            syncToForm(newFiles);
+          }}
         />
         {errors.image && <p className={styles.error}>{errors.image.message}</p>}
       </div>

@@ -15,14 +15,18 @@ function UpdateCabinForm({ cabin }: UpdateCabinFormProps) {
   const { setEditingCabinId } = useCabinsStore();
   const { id: editId, image: currentImage, ...editValues } = cabin;
   const isEditSession = Boolean(editId);
-  const { register, handleSubmit, reset, errors } = useCabinForm(isEditSession, editValues);
+  const { register, handleSubmit, reset, setValue, errors } = useCabinForm(isEditSession, editValues);
   const [files, setFiles] = useState<File[]>([]);
   const { submitCabin, isPending } = useUpdateCabin(isEditSession, editId, currentImage);
 
-  function onSubmit(data: CabinFormValues) {
+  function syncToForm(fileList: File[]) {
     const dt = new DataTransfer();
-    files.forEach((f) => dt.items.add(f));
-    submitCabin({ ...data, image: dt.files });
+    fileList.forEach((f) => dt.items.add(f));
+    setValue("image", dt.files, { shouldValidate: true });
+  }
+
+  function onSubmit(data: CabinFormValues) {
+    submitCabin(data);
   }
 
   return (
@@ -88,7 +92,10 @@ function UpdateCabinForm({ cabin }: UpdateCabinFormProps) {
           maxFiles={1}
           maxSize={3_000_000}
           value={files}
-          onChange={setFiles}
+          onChange={(newFiles) => {
+            setFiles(newFiles);
+            syncToForm(newFiles);
+          }}
         />
         {errors.image && <p className={styles.error}>{errors.image.message}</p>}
       </div>
