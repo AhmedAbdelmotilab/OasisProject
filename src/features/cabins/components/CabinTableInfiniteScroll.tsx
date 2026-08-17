@@ -24,6 +24,7 @@ export default function CabinTablePaginated() {
       lastPage.length < PAGE_SIZE ? undefined : allPages.length * PAGE_SIZE,
   });
   const sentinelRef = useRef<HTMLDivElement | null>(null);
+  const bodyRef = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -31,7 +32,7 @@ export default function CabinTablePaginated() {
           fetchNextPage();
         }
       },
-      { rootMargin: "200px" },
+      { root: bodyRef.current, rootMargin: "200px" },
     );
     if (sentinelRef.current) observer.observe(sentinelRef.current);
     return () => observer.disconnect();
@@ -64,11 +65,13 @@ export default function CabinTablePaginated() {
           </button>
         </div>
       </header>
-      {cabins.map((cabin) => (
-        <CabinRow key={cabin.id} cabin={cabin} />
-      ))}
-      <div ref={sentinelRef} />
-      {isFetchingNextPage && <Spinner />}
+      <div className={styles.body} ref={bodyRef}>
+        {cabins.map((cabin) => (
+          <CabinRow key={cabin.id} cabin={cabin} />
+        ))}
+        <div ref={sentinelRef} />
+        {isFetchingNextPage && <Spinner />}
+      </div>
       {editingCabin && (
         <Modal>
           <UpdateCabinForm cabin={editingCabin} />

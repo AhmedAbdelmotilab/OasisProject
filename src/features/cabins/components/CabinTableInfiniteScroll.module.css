@@ -42,3 +42,8 @@
 .button:hover {
   background-color: var(--color-brand-700);
 }
+
+.body {
+  max-height: 65vh;
+  overflow-y: auto;
+}
