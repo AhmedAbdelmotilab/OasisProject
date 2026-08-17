@@ -1,17 +1,15 @@
 import Logo from "./Logo";
 import MainNav from "./MainNav";
+import { useUIStore } from "./store/useUIStore";
 import styles from "./SideBar.module.css";
 
-interface SideBarProps {
-  isOpen: boolean;
-  onClose: () => void;
-}
+export default function SideBar() {
+  const sidebarOpen = useUIStore((s) => s.sidebarOpen);
 
-export default function SideBar({ isOpen, onClose }: SideBarProps) {
   return (
-    <aside className={`${styles.sideBar} ${isOpen ? styles.open : ""}`}>
+    <aside className={`${styles.sideBar} ${sidebarOpen ? styles.open : ""}`}>
       <Logo />
-      <MainNav onNavigate={onClose} />
+      <MainNav />
     </aside>
   );
 }

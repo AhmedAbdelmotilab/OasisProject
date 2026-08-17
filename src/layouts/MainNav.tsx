@@ -6,13 +6,12 @@ import {
   HiOutlineUsers,
 } from "react-icons/hi2";
 import { NavLink } from "react-router-dom";
+import { useUIStore } from "./store/useUIStore";
 import styles from "./MainNav.module.css";
 
-interface MainNavProps {
-  onNavigate?: () => void;
-}
+function MainNav() {
+  const closeSidebar = useUIStore((s) => s.closeSidebar);
 
-function MainNav({ onNavigate }: MainNavProps) {
   return (
     <nav>
       <ul className={styles.navList}>
@@ -20,7 +19,7 @@ function MainNav({ onNavigate }: MainNavProps) {
           <NavLink
             to="/dashboard"
             className={({ isActive }) => `${styles.navLink} ${isActive ? styles.active : ""}`}
-            onClick={onNavigate}
+            onClick={closeSidebar}
           >
             <HiOutlineHome />
             <span>Home</span>
@@ -30,7 +29,7 @@ function MainNav({ onNavigate }: MainNavProps) {
           <NavLink
             to="/bookings"
             className={({ isActive }) => `${styles.navLink} ${isActive ? styles.active : ""}`}
-            onClick={onNavigate}
+            onClick={closeSidebar}
           >
             <HiOutlineCalendarDays />
             <span>Bookings</span>
@@ -40,7 +39,7 @@ function MainNav({ onNavigate }: MainNavProps) {
           <NavLink
             to="/cabins"
             className={({ isActive }) => `${styles.navLink} ${isActive ? styles.active : ""}`}
-            onClick={onNavigate}
+            onClick={closeSidebar}
           >
             <HiOutlineHomeModern />
             <span>Cabins</span>
@@ -50,7 +49,7 @@ function MainNav({ onNavigate }: MainNavProps) {
           <NavLink
             to="/users"
             className={({ isActive }) => `${styles.navLink} ${isActive ? styles.active : ""}`}
-            onClick={onNavigate}
+            onClick={closeSidebar}
           >
             <HiOutlineUsers />
             <span>Users</span>
@@ -60,7 +59,7 @@ function MainNav({ onNavigate }: MainNavProps) {
           <NavLink
             to="/settings"
             className={({ isActive }) => `${styles.navLink} ${isActive ? styles.active : ""}`}
-            onClick={onNavigate}
+            onClick={closeSidebar}
           >
             <HiOutlineCog6Tooth />
             <span>Settings</span>

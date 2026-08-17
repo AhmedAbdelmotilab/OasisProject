@@ -1,16 +1,15 @@
 import { FaBars } from "react-icons/fa";
+import { useUIStore } from "./store/useUIStore";
 import styles from "./Header.module.css";
 
-interface HeaderProps {
-  onToggleSidebar: () => void;
-}
+export default function Header() {
+  const toggleSidebar = useUIStore((s) => s.toggleSidebar);
 
-export default function Header({ onToggleSidebar }: HeaderProps) {
   return (
     <header className={styles.header}>
       <button
         className={styles.menuBtn}
-        onClick={onToggleSidebar}
+        onClick={toggleSidebar}
         aria-label="Toggle menu"
       >
         <FaBars />
