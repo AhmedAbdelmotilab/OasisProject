@@ -30,7 +30,11 @@
   border-bottom: 1px solid var(--color-grey-100);
 }
 
-.formRow:has(button) {
+.fullWidth {
+  grid-template-columns: 1fr;
+}
+
+.formRow:has(button):not(.fullWidth) {
   display: flex;
   justify-content: flex-end;
   gap: 1.2rem;
@@ -144,7 +148,7 @@
     width: 100%;
   }
 
-  .formRow:has(button) {
+.formRow:has(button):not(.fullWidth) {
     flex-direction: column;
   }
 

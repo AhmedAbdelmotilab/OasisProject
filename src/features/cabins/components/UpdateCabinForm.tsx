@@ -1,8 +1,10 @@
+import { useState } from "react";
 import type { Cabin } from "../../../utils/types";
 import { type CabinFormValues } from "../hooks/cabinSchema";
 import { useCabinForm } from "../hooks/useCabinForm";
 import { useUpdateCabin } from "../hooks/useUpdateCabin";
 import { useCabinsStore } from "../store/useCabinsStore";
+import FileDropzone from "../../../components/FileDropzone";
 import styles from "./UpdateCabinForm.module.css";
 
 interface UpdateCabinFormProps {
@@ -13,11 +15,14 @@ function UpdateCabinForm({ cabin }: UpdateCabinFormProps) {
   const { setEditingCabinId } = useCabinsStore();
   const { id: editId, image: currentImage, ...editValues } = cabin;
   const isEditSession = Boolean(editId);
-  const { register, handleSubmit, reset, errors } = useCabinForm(isEditSession, editValues);
+  const { register, handleSubmit, reset, setValue, errors } = useCabinForm(isEditSession, editValues);
+  const [files, setFiles] = useState<File[]>([]);
   const { submitCabin, isPending } = useUpdateCabin(isEditSession, editId, currentImage);
 
   function onSubmit(data: CabinFormValues) {
-    submitCabin(data);
+    const dt = new DataTransfer();
+    files.forEach((f) => dt.items.add(f));
+    submitCabin({ ...data, image: dt.files });
   }
 
   return (
@@ -77,11 +82,14 @@ function UpdateCabinForm({ cabin }: UpdateCabinFormProps) {
         {errors.description && <p className={styles.error}>{errors.description.message}</p>}
       </div>
 
-      <div className={styles.formRow}>
-        <label className={styles.label} htmlFor="image">
-          Cabin photo
-        </label>
-        <input type="file" id="image" accept="image/*" className={styles.fileInput} {...register("image")} />
+      <div className={`${styles.formRow} ${styles.fullWidth}`}>
+        <FileDropzone
+          accept={{ "image/*": [] }}
+          maxFiles={1}
+          maxSize={3_000_000}
+          value={files}
+          onChange={setFiles}
+        />
         {errors.image && <p className={styles.error}>{errors.image.message}</p>}
       </div>
 
