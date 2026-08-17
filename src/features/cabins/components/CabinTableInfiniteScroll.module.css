@@ -48,15 +48,42 @@
   overflow-y: auto;
 }
 
+.mobileAddButton {
+  display: none;
+}
+
 @media (max-width: 768px) {
   .table {
     border: none;
     box-shadow: none;
     background-color: transparent;
+    display: flex;
+    flex-direction: column;
   }
 
   .header {
     display: none;
+  }
+
+  .mobileAddButton {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    background-color: var(--color-brand-600);
+    color: var(--color-grey-0);
+    border: none;
+    border-radius: 5px;
+    padding: 1rem 1.8rem;
+    font-size: 1.6rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    align-self: flex-end;
+    margin-bottom: 1.2rem;
+  }
+
+  .mobileAddButton:hover {
+    background-color: var(--color-brand-700);
   }
 
   .body {
