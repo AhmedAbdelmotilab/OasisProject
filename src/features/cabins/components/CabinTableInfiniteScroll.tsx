@@ -46,15 +46,6 @@ export default function CabinTablePaginated() {
 
   return (
     <div className={styles.table}>
-      <button
-        className={styles.mobileAddButton}
-        onClick={() => {
-          setShowOpenModal();
-          setEditingCabinId(null);
-        }}
-      >
-        <FaPlus /> {!showOpenModal ? "Add" : "close"}
-      </button>
       <header className={styles.header}>
         <div>Image</div>
         <div>Cabin</div>
@@ -75,6 +66,15 @@ export default function CabinTablePaginated() {
         </div>
       </header>
       <div className={styles.body} ref={bodyRef}>
+        <button
+          className={styles.mobileAddButton}
+          onClick={() => {
+            setShowOpenModal();
+            setEditingCabinId(null);
+          }}
+        >
+          <FaPlus /> {!showOpenModal ? "Add" : "close"}
+        </button>
         {cabins.map((cabin) => (
           <CabinRow key={cabin.id} cabin={cabin} />
         ))}
