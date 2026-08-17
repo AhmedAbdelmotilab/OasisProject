@@ -57,7 +57,6 @@ function CreateCabinForm() {
           className={styles.input}
           type="number"
           id="discount"
-          defaultValue={0}
           {...register("discount", { valueAsNumber: true })}
         />
         {errors.discount && <p className={styles.error}>{errors.discount.message}</p>}
