@@ -12,7 +12,7 @@ export const getCabinSchema = (isEditSession = false) =>
       discount: z.number("Discount is required").min(0, "Discount cannot be negative"),
       description: z.string().min(10, "Use at least 10 characters"),
       image: z
-        .instanceof(FileList)
+        .array(z.instanceof(File))
         .refine((files) => isEditSession || files.length === 1, "Choose one image file")
         .refine(
           (files) => files.length === 0 || files[0]?.type.startsWith("image/"),

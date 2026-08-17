@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { Controller } from "react-hook-form";
 import FileDropzone from "../../../components/FileDropzone";
 import type { CabinFormValues } from "../hooks/cabinSchema";
 import { useCabinForm } from "../hooks/useCabinForm";
@@ -8,15 +8,8 @@ import styles from "./CreateCabinForm.module.css";
 
 function CreateCabinForm() {
   const { setShowOpenModal } = useCabinsStore();
-  const { register, handleSubmit, reset, setValue, errors } = useCabinForm();
-  const [files, setFiles] = useState<File[]>([]);
+  const { register, handleSubmit, reset, control, errors } = useCabinForm();
   const { addNewCabin, isPending } = useCreateCabin();
-
-  function syncToForm(fileList: File[]) {
-    const dt = new DataTransfer();
-    fileList.forEach((f) => dt.items.add(f));
-    setValue("image", dt.files, { shouldValidate: true });
-  }
 
   function onSubmit(data: CabinFormValues) {
     addNewCabin(data);
@@ -80,15 +73,18 @@ function CreateCabinForm() {
       </div>
 
       <div className={`${styles.formRow} ${styles.fullWidth}`}>
-        <FileDropzone
-          accept={{ "image/*": [] }}
-          maxFiles={1}
-          maxSize={3_000_000}
-          value={files}
-          onChange={(newFiles) => {
-            setFiles(newFiles);
-            syncToForm(newFiles);
-          }}
+        <Controller
+          name="image"
+          control={control}
+          render={({ field: { value, onChange } }) => (
+            <FileDropzone
+              accept={{ "image/*": [] }}
+              maxFiles={1}
+              maxSize={3_000_000}
+              value={value}
+              onChange={onChange}
+            />
+          )}
         />
         {errors.image && <p className={styles.error}>{errors.image.message}</p>}
       </div>
