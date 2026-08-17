@@ -130,3 +130,27 @@
   background-color: var(--color-grey-100);
   transform: translateY(-1px);
 }
+
+@media (max-width: 768px) {
+  .regular {
+    padding: 2rem 1.6rem;
+  }
+
+  .formRow {
+    grid-template-columns: 1fr;
+    gap: 0.8rem;
+  }
+
+  .input,
+  .textarea {
+    width: 100%;
+  }
+
+  .formRow:has(button) {
+    flex-direction: column;
+  }
+
+  .formRow:has(button) button {
+    width: 100%;
+  }
+}
