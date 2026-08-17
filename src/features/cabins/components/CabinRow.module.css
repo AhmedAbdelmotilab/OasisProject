@@ -68,3 +68,56 @@
   border: none;
   box-shadow: none;
 }
+
+.description {
+  color: var(--color-grey-500);
+  font-size: 1.3rem;
+  line-height: 1.5;
+}
+
+@media (max-width: 768px) {
+  .row {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1.2rem;
+    padding: 1.6rem;
+    background-color: var(--color-grey-0);
+    border-radius: 7px;
+    border: 1px solid var(--color-grey-200);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  }
+
+  .row:not(:last-child) {
+    border-bottom: 1px solid var(--color-grey-200);
+  }
+
+  .img {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    transform: none;
+    margin-left: 0;
+    border-radius: 5px;
+  }
+
+  .cabin {
+    font-size: 1.8rem;
+  }
+
+  .description {
+    font-size: 1.3rem;
+  }
+
+  .price,
+  .discount,
+  .capacity {
+    display: inline-block;
+  }
+
+  .actions {
+    justify-content: flex-end;
+    padding-top: 0.8rem;
+    border-top: 1px solid var(--color-grey-100);
+  }
+}

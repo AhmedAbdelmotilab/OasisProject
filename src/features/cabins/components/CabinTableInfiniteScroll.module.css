@@ -47,3 +47,24 @@
   max-height: 65vh;
   overflow-y: auto;
 }
+
+@media (max-width: 768px) {
+  .table {
+    border: none;
+    box-shadow: none;
+    background-color: transparent;
+  }
+
+  .header {
+    display: none;
+  }
+
+  .body {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    max-height: none;
+    overflow-y: visible;
+    padding: 0;
+  }
+}

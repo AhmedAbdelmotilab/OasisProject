@@ -42,3 +42,15 @@
 .button:hover {
   background-color: var(--color-brand-700);
 }
+
+@media (max-width: 768px) {
+  .table {
+    border: none;
+    box-shadow: none;
+    background-color: transparent;
+  }
+
+  .header {
+    display: none;
+  }
+}

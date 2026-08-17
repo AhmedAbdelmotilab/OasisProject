@@ -39,7 +39,7 @@ export default function CabinRow({ cabin }: CabinRowProps) {
           alt={cabin.name}
         />
         <div className={styles.cabin}>{cabin.name}</div>
-        <div>{cabin.description}</div>
+        <div className={styles.description}>{cabin.description}</div>
         <div className={styles.price}>{formatCurrency(cabin.regularPrice)}</div>
         <div className={styles.discount}>{formatCurrency(cabin.discount)}</div>
         <div className={styles.capacity}>{cabin.maxCapacity}</div>
