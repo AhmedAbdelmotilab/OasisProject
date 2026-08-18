@@ -3,14 +3,13 @@ import { useEffect, useRef } from "react";
 import { FaPlus } from "react-icons/fa";
 import { useSearchParams } from "react-router-dom";
 import { Spinner } from "../../../components/Spinner";
+import { API } from "../../../config/API";
 import Modal from "../../../layouts/Modal";
 import { getCabinsPage } from "../../../services/apiCabins";
 import { useCabinsStore } from "../store/useCabinsStore";
 import CabinRow from "./CabinRow";
 import styles from "./CabinTableInfiniteScroll.module.css";
 import UpdateCabinForm from "./UpdateCabinForm";
-
-const PAGE_SIZE = 5;
 
 export default function CabinTablePaginated() {
   const { setShowOpenModal, showOpenModal, editingCabinId, setEditingCabinId } = useCabinsStore();
@@ -21,7 +20,7 @@ export default function CabinTablePaginated() {
     queryFn: ({ pageParam }) => getCabinsPage(pageParam, sortBy),
     initialPageParam: 0,
     getNextPageParam: (lastPage, allPages) =>
-      lastPage.length < PAGE_SIZE ? undefined : allPages.length * PAGE_SIZE,
+      lastPage.length < API.PAGINATION_LIMIT ? undefined : allPages.length * API.PAGINATION_LIMIT,
   });
   const sentinelRef = useRef<HTMLDivElement | null>(null);
   const bodyRef = useRef<HTMLDivElement | null>(null);
