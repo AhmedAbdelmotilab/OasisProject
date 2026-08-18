@@ -1,3 +1,4 @@
+import { API } from "../config/API";
 import type { Cabin } from "../utils/types";
 import { supabase } from "./supabase";
 
@@ -15,7 +16,7 @@ export async function getCabinsPage(from: number, sortBy: string): Promise<Cabin
     .from("cabins")
     .select("*")
     .order(field, { ascending: order === "asc" })
-    .range(from, from + 4);
+    .range(from, from + API.PAGINATION_LIMIT - 1);
   if (error) throw new Error(error.message);
   return data || [];
 }
