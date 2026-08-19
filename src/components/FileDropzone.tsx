@@ -49,18 +49,27 @@ function FileDropzone({
   }
 
   function commitRename() {
+    // if no one is being renamed right now, just stop here
     if (!renaming) return;
+
+    // clean up extra spaces from the new name
     const trimmed = renaming.name.trim();
+    // grab the old file so we can copy its info
     const current = files[renaming.index];
 
+    // only do something if the name is not empty and actually changed
     if (trimmed && trimmed !== current.name) {
       updateFiles((draft) => {
+        // files can't be renamed directly, so we make a new one
+        // same content, same type, same date, just new name
         draft[renaming.index] = new File([current], trimmed, {
           type: current.type,
           lastModified: current.lastModified,
         });
       });
     }
+
+    // close the rename input either way
     setRenaming(null);
   }
 
