@@ -85,7 +85,7 @@ function UpdateCabinForm({ cabin }: UpdateCabinFormProps) {
           control={control}
           render={({ field: { value, onChange } }) => (
             <FileDropzone
-              accept={{ "image/*": [] }}
+              accept="image/*"
               maxFiles={1}
               value={value}
               onChange={onChange}
