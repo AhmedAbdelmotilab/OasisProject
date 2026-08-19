@@ -1,9 +1,11 @@
 import { FaPlus } from "react-icons/fa";
+import { useTranslation } from "react-i18next";
 import { sortOptions, useSortCabins } from "../hooks/useSortCabins";
 import { useCabinsStore } from "../store/useCabinsStore";
 import styles from "./CabinTableOperations.module.css";
 
 function CabinTableOperations() {
+  const { t } = useTranslation();
   const { sortBy, handleSortChange } = useSortCabins();
   const { setShowOpenModal, setEditingCabinId, showOpenModal } = useCabinsStore();
 
@@ -12,7 +14,7 @@ function CabinTableOperations() {
       <select className={styles.select} value={sortBy} onChange={(e) => handleSortChange(e.target.value)}>
         {sortOptions.map((option) => (
           <option key={option.value} value={option.value}>
-            {option.label}
+            {t(option.label)}
           </option>
         ))}
       </select>
@@ -23,7 +25,7 @@ function CabinTableOperations() {
           setEditingCabinId(null);
         }}
       >
-        <FaPlus /> {!showOpenModal ? "Add" : "Close"}
+        <FaPlus /> {!showOpenModal ? t("Add") : t("Close")}
       </button>
     </div>
   );
