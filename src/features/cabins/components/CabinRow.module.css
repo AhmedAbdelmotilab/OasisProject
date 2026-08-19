@@ -20,6 +20,12 @@
   transform: scale(1.5) translateX(-7px);
 }
 
+[dir="rtl"] .img {
+  margin-left: 0;
+  margin-right: 1rem;
+  transform: scale(1.5) translateX(7px);
+}
+
 .cabin {
   font-size: 1.6rem;
   font-weight: 600;
@@ -30,17 +36,31 @@
 .price {
   font-family: "Sono";
   font-weight: 600;
+  text-align: right;
+}
+
+[dir="rtl"] .price {
+  text-align: left;
 }
 
 .discount {
   font-family: "Sono";
   font-weight: 500;
   color: var(--color-green-700);
+  text-align: right;
+}
+
+[dir="rtl"] .discount {
+  text-align: left;
 }
 .actions {
   display: flex;
   gap: 1rem;
   justify-content: flex-end;
+}
+
+[dir="rtl"] .actions {
+  justify-content: flex-start;
 }
 
 .iconBtn {
