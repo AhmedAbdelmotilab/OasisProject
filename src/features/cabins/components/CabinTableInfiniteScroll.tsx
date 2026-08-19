@@ -1,5 +1,6 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useEffect, useRef } from "react";
+import { FaWrench } from "react-icons/fa";
 import { useSearchParams } from "react-router-dom";
 import { Spinner } from "../../../components/Spinner";
 import { API } from "../../../config/API";
@@ -11,7 +12,7 @@ import styles from "./CabinTableInfiniteScroll.module.css";
 import UpdateCabinForm from "./UpdateCabinForm";
 
 export default function CabinTablePaginated() {
-  const { editingCabinId, setEditingCabinId } = useCabinsStore();
+  const { editingCabinId } = useCabinsStore();
   const [searchParams] = useSearchParams();
   const sortBy = searchParams.get("sortBy") ?? "name-asc";
   const { data, isLoading, isError, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery({
@@ -51,6 +52,9 @@ export default function CabinTablePaginated() {
         <div>Price</div>
         <div>Discount</div>
         <div>Capacity</div>
+        <div>
+          <FaWrench />
+        </div>
       </header>
       <div className={styles.body} ref={bodyRef}>
         {cabins.map((cabin) => (
