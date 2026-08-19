@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
+import i18n from "../../../i18n";
 import { createCabin, removeCabinImage, uploadCabinImage } from "../../../services/apiCabins";
 import { useCabinsStore } from "../store/useCabinsStore";
 import type { CabinFormValues } from "./cabinSchema";
@@ -22,7 +23,7 @@ export function useCreateCabin() {
       }
     },
     onSuccess: () => {
-      toast.success("Cabin was successfully created");
+      toast.success(i18n.t("Cabin was successfully created"));
       queryClient.invalidateQueries({ queryKey: ["cabins-paginated"] });
       setShowOpenModal(false);
     },

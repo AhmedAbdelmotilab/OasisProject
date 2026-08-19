@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
+import i18n from "../../../i18n";
 import { removeCabinImage, UpdateCabin, uploadCabinImage } from "../../../services/apiCabins";
 import { useCabinsStore } from "../store/useCabinsStore";
 import type { CabinFormValues } from "./cabinSchema";
@@ -27,7 +28,7 @@ export function useUpdateCabin(isEditSession: boolean, editId: number, currentIm
       }
     },
     onSuccess: () => {
-      toast.success("Cabin was successfully updated");
+      toast.success(i18n.t("Cabin was successfully updated"));
       queryClient.invalidateQueries({ queryKey: ["cabins-paginated"] });
       setEditingCabinId(null);
     },
