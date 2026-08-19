@@ -1,4 +1,5 @@
 import { Controller } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import FileDropzone from "../../../components/FileDropzone";
 import type { CabinFormValues } from "../hooks/cabinSchema";
 import { useCabinForm } from "../hooks/useCabinForm";
@@ -7,6 +8,7 @@ import { useCabinsStore } from "../store/useCabinsStore";
 import styles from "./CreateCabinForm.module.css";
 
 function CreateCabinForm() {
+  const { t } = useTranslation();
   const { setShowOpenModal } = useCabinsStore();
   const { register, handleSubmit, reset, control, errors } = useCabinForm();
   const { addNewCabin, isPending } = useCreateCabin();
@@ -19,7 +21,7 @@ function CreateCabinForm() {
     <form onSubmit={handleSubmit(onSubmit)} className={`${styles.form} ${styles.regular}`}>
       <div className={styles.formRow}>
         <label className={styles.label} htmlFor="name">
-          Cabin name
+          {t("Cabin name")}
         </label>
         <input className={styles.input} type="text" id="name" {...register("name")} />
         {errors.name && <p className={styles.error}>{errors.name.message}</p>}
@@ -27,7 +29,7 @@ function CreateCabinForm() {
 
       <div className={styles.formRow}>
         <label className={styles.label} htmlFor="maxCapacity">
-          Maximum capacity
+          {t("Maximum capacity")}
         </label>
         <input
           className={styles.input}
@@ -40,7 +42,7 @@ function CreateCabinForm() {
 
       <div className={styles.formRow}>
         <label className={styles.label} htmlFor="regularPrice">
-          Regular price
+          {t("Regular price")}
         </label>
         <input
           className={styles.input}
@@ -53,7 +55,7 @@ function CreateCabinForm() {
 
       <div className={styles.formRow}>
         <label className={styles.label} htmlFor="discount">
-          Discount
+          {t("Discount")}
         </label>
         <input
           className={styles.input}
@@ -66,7 +68,7 @@ function CreateCabinForm() {
 
       <div className={styles.formRow}>
         <label className={styles.label} htmlFor="description">
-          Description for website
+          {t("Description for website")}
         </label>
         <textarea className={styles.textarea} id="description" {...register("description")} />
         {errors.description && <p className={styles.error}>{errors.description.message}</p>}
@@ -97,10 +99,10 @@ function CreateCabinForm() {
           }}
           className={`${styles.secondary} ${styles.medium}`}
         >
-          Cancel
+          {t("Cancel")}
         </button>
         <button type="submit" disabled={isPending} className={`${styles.primary} ${styles.medium}`}>
-          Add cabin
+          {t("Add cabin")}
         </button>
       </div>
     </form>

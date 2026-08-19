@@ -1,4 +1,5 @@
 import { Controller } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import FileDropzone from "../../../components/FileDropzone";
 import type { Cabin } from "../../../utils/types";
 import { type CabinFormValues } from "../hooks/cabinSchema";
@@ -12,6 +13,7 @@ interface UpdateCabinFormProps {
 }
 
 function UpdateCabinForm({ cabin }: UpdateCabinFormProps) {
+  const { t } = useTranslation();
   const { setEditingCabinId } = useCabinsStore();
   const { id: editId, image: currentImage, ...editValues } = cabin;
   const isEditSession = Boolean(editId);
@@ -26,7 +28,7 @@ function UpdateCabinForm({ cabin }: UpdateCabinFormProps) {
     <form onSubmit={handleSubmit(onSubmit)} className={`${styles.form} ${styles.regular}`}>
       <div className={styles.formRow}>
         <label className={styles.label} htmlFor="name">
-          Cabin name
+          {t("Cabin name")}
         </label>
         <input className={styles.input} type="text" id="name" {...register("name")} />
         {errors.name && <p className={styles.error}>{errors.name.message}</p>}
@@ -34,7 +36,7 @@ function UpdateCabinForm({ cabin }: UpdateCabinFormProps) {
 
       <div className={styles.formRow}>
         <label className={styles.label} htmlFor="maxCapacity">
-          Maximum capacity
+          {t("Maximum capacity")}
         </label>
         <input
           className={styles.input}
@@ -47,7 +49,7 @@ function UpdateCabinForm({ cabin }: UpdateCabinFormProps) {
 
       <div className={styles.formRow}>
         <label className={styles.label} htmlFor="regularPrice">
-          Regular price
+          {t("Regular price")}
         </label>
         <input
           className={styles.input}
@@ -60,7 +62,7 @@ function UpdateCabinForm({ cabin }: UpdateCabinFormProps) {
 
       <div className={styles.formRow}>
         <label className={styles.label} htmlFor="discount">
-          Discount
+          {t("Discount")}
         </label>
         <input
           className={styles.input}
@@ -73,7 +75,7 @@ function UpdateCabinForm({ cabin }: UpdateCabinFormProps) {
 
       <div className={styles.formRow}>
         <label className={styles.label} htmlFor="description">
-          Description for website
+          {t("Description for website")}
         </label>
         <textarea className={styles.textarea} id="description" {...register("description")} />
         {errors.description && <p className={styles.error}>{errors.description.message}</p>}
@@ -104,10 +106,10 @@ function UpdateCabinForm({ cabin }: UpdateCabinFormProps) {
           }}
           className={`${styles.secondary} ${styles.medium}`}
         >
-          Cancel
+          {t("Cancel")}
         </button>
         <button type="submit" disabled={isPending} className={`${styles.primary} ${styles.medium}`}>
-          {isEditSession ? "Edit cabin" : "Create cabin"}
+          {isEditSession ? t("Edit cabin") : t("Create cabin")}
         </button>
       </div>
     </form>

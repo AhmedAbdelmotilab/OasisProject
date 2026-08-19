@@ -1,6 +1,7 @@
 import { produce } from "immer";
 import { UploadIcon, XIcon } from "lucide-react";
 import { useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 interface FileDropzoneProps {
   accept?: string;
@@ -26,6 +27,7 @@ function FileDropzone({
   className = "",
 }: FileDropzoneProps) {
   const files = value;
+  const { t } = useTranslation();
   const inputRef = useRef<HTMLInputElement>(null);
   const [dragging, setDragging] = useState(false);
 
@@ -96,10 +98,10 @@ function FileDropzone({
           <div className="flex size-11 items-center justify-center rounded-md bg-(--color-grey-100) text-(--color-grey-600)">
             <UploadIcon size={22} />
           </div>
-          <p className="text-lg font-bold text-(--color-grey-700)">
-            Upload {maxFiles === 1 ? "an image" : "images"}
+          <p className="text-lg font-bold text-(--color-grey-700)">{t("Upload an image")}</p>
+          <p className="text-base font-semibold text-(--color-grey-500)">
+            {t("Drag and drop or click to upload")}
           </p>
-          <p className="text-base font-semibold text-(--color-grey-500)">Drag and drop or click to upload</p>
         </div>
       ) : (
         <div className="flex w-full h-full flex-col items-center justify-center gap-2">
@@ -151,7 +153,9 @@ function FileDropzone({
               </div>
             );
           })}
-          <p className="text-base font-semibold text-(--color-grey-500)">Drag and drop or click to replace</p>
+          <p className="text-base font-semibold text-(--color-grey-500)">
+            {t("Drag and drop or click to replace")}
+          </p>
         </div>
       )}
     </div>
