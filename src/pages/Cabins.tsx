@@ -11,7 +11,6 @@ function Cabins() {
         <h1 className={`${styles.heading} ${styles.h1}`}>All cabins</h1>
         <CabinTableOperations />
       </div>
-      <div className={styles.vertical}></div>
       <CabinTablePaginated />
     </>
   );

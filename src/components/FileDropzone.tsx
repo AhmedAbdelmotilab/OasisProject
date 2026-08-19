@@ -1,8 +1,9 @@
+import { produce } from "immer";
 import { UploadIcon, XIcon } from "lucide-react";
-import { useCallback, useRef, useState } from "react";
+import { useRef, useState } from "react";
 
 interface FileDropzoneProps {
-  accept?: Record<string, string[]>;
+  accept?: string;
   maxFiles?: number;
   value?: File[];
   onChange?: (files: File[]) => void;
@@ -11,145 +12,145 @@ interface FileDropzoneProps {
 }
 
 function formatBytes(bytes: number): string {
-  const units = ["B", "KB", "MB", "GB"];
-  let value = bytes;
-  let unit = 0;
-  while (value >= 1024 && unit < units.length - 1) {
-    value /= 1024;
-    unit += 1;
-  }
-  return value.toFixed(2) + " " + units[unit];
+  if (bytes < 1024) return bytes + " B";
+  if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(2) + " KB";
+  return (bytes / (1024 * 1024)).toFixed(2) + " MB";
 }
 
 function FileDropzone({
-  accept = { "image/*": [] },
+  accept = "image/*",
   maxFiles = 1,
   value = [],
   onChange,
   disabled = false,
-  className,
+  className = "",
 }: FileDropzoneProps) {
+  const files = value;
   const inputRef = useRef<HTMLInputElement>(null);
   const [dragging, setDragging] = useState(false);
 
-  const files = value;
+  const [renaming, setRenaming] = useState<{ index: number; name: string } | null>(null);
 
-  const acceptTypes = Object.keys(accept).join(",");
+  function updateFiles(recipe: (draft: File[]) => void) {
+    onChange?.(produce(files, recipe));
+  }
 
-  const handleFiles = useCallback(
-    (newFiles: File[]) => {
-      const accepted = newFiles.slice(0, maxFiles).filter((file) => {
-        if (accept) {
-          const matches = Object.keys(accept).some((type) =>
-            type.endsWith("/*") ? file.type.startsWith(type.slice(0, -1)) : file.type === type,
-          );
-          if (!matches) return false;
-        }
-        return true;
+  function addFiles(newFiles: FileList | null) {
+    if (!newFiles) return;
+    onChange?.(Array.from(newFiles).slice(0, maxFiles));
+  }
+
+  function removeFile(index: number) {
+    updateFiles((draft) => {
+      draft.splice(index, 1);
+    });
+  }
+
+  function commitRename() {
+    if (!renaming) return;
+    const trimmed = renaming.name.trim();
+    const current = files[renaming.index];
+
+    if (trimmed && trimmed !== current.name) {
+      updateFiles((draft) => {
+        draft[renaming.index] = new File([current], trimmed, {
+          type: current.type,
+          lastModified: current.lastModified,
+        });
       });
-
-      onChange?.(accepted);
-    },
-    [accept, maxFiles, onChange],
-  );
-
-  const handleDrop = useCallback(
-    (e: React.DragEvent) => {
-      e.preventDefault();
-      setDragging(false);
-      handleFiles(Array.from(e.dataTransfer.files));
-    },
-    [handleFiles],
-  );
-
-  const handleDragOver = useCallback((e: React.DragEvent) => {
-    e.preventDefault();
-    setDragging(true);
-  }, []);
-
-  const handleDragLeave = useCallback(() => {
-    setDragging(false);
-  }, []);
-
-  const handleClick = useCallback(() => {
-    inputRef.current?.click();
-  }, []);
-
-  const handleChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      handleFiles(Array.from(e.target.files ?? []));
-    },
-    [handleFiles],
-  );
-
-  const handleRemove = useCallback(
-    (index: number) => {
-      onChange?.(files.filter((_, i) => i !== index));
-    },
-    [files, onChange],
-  );
+    }
+    setRenaming(null);
+  }
 
   return (
     <div
       role="button"
       tabIndex={disabled ? -1 : 0}
-      className={`flex w-full h-40 flex-col items-center justify-center rounded-md border-2 border-dashed p-4 text-lg font-medium transition-all cursor-pointer ${
-        dragging
-          ? "border-(--color-brand-600) bg-(--color-brand-50)"
-          : "border-(--color-grey-300) bg-(--color-grey-0) hover:border-(--color-brand-600) hover:bg-(--color-grey-50)"
-      } ${disabled ? "opacity-60 cursor-not-allowed" : ""} ${className ?? ""}`}
-      onClick={handleClick}
-      onDrop={handleDrop}
-      onDragOver={handleDragOver}
-      onDragLeave={handleDragLeave}
+      onClick={() => inputRef.current?.click()}
+      onDrop={(e) => {
+        e.preventDefault();
+        setDragging(false);
+        addFiles(e.dataTransfer.files);
+      }}
+      onDragOver={(e) => {
+        e.preventDefault();
+        setDragging(true);
+      }}
+      onDragLeave={() => setDragging(false)}
+      className={`flex w-full h-40 flex-col items-center justify-center rounded-md border-2 border-dashed p-4 text-lg font-medium transition-all cursor-pointer
+        ${dragging ? "border-(--color-brand-600) bg-(--color-brand-50)" : "border-(--color-grey-300) bg-(--color-grey-0) hover:border-(--color-brand-600) hover:bg-(--color-grey-50)"}
+        ${disabled ? "opacity-60 cursor-not-allowed" : ""}
+        ${className}`}
     >
       <input
         ref={inputRef}
-        className="sr-only"
         type="file"
+        className="sr-only"
         multiple={maxFiles !== 1}
-        accept={acceptTypes}
-        onChange={handleChange}
+        accept={accept}
+        onChange={(e) => addFiles(e.target.files)}
       />
+
       {files.length === 0 ? (
         <div className="flex flex-col items-center gap-1.5">
           <div className="flex size-11 items-center justify-center rounded-md bg-(--color-grey-100) text-(--color-grey-600)">
             <UploadIcon size={22} />
           </div>
           <p className="text-lg font-bold text-(--color-grey-700)">
-            Upload {maxFiles === 1 ? "a image" : "image"}
+            Upload {maxFiles === 1 ? "an image" : "images"}
           </p>
           <p className="text-base font-semibold text-(--color-grey-500)">Drag and drop or click to upload</p>
         </div>
       ) : (
         <div className="flex w-full h-full flex-col items-center justify-center gap-2">
-          {files.map((file, index) => (
-            <div
-              key={`${file.name}-${index}`}
-              className="flex w-full items-center gap-3 rounded-md border border-(--color-grey-200) bg-(--color-grey-100) p-3"
-            >
-              <div className="flex size-10 shrink-0 items-center justify-center rounded-md bg-(--color-grey-0) text-(--color-brand-600) shadow-sm">
-                <UploadIcon size={18} />
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className="truncate text-lg font-bold text-(--color-grey-700)" title={file.name}>
-                  {file.name}
-                </p>
-                <p className="text-base font-semibold text-(--color-grey-500)">{formatBytes(file.size)}</p>
-              </div>
-              <button
-                type="button"
-                className="flex size-9 shrink-0 items-center justify-center rounded-md border border-(--color-grey-200) bg-(--color-grey-0) text-(--color-grey-500) transition-colors hover:border-red-200 hover:bg-red-50 hover:text-red-600"
-                aria-label={`Remove ${file.name}`}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleRemove(index);
-                }}
+          {files.map((file, index) => {
+            const isEditing = renaming?.index === index;
+            return (
+              <div
+                key={`${file.name}-${index}`}
+                className="flex w-full items-center gap-3 rounded-md border border-(--color-grey-200) bg-(--color-grey-100) p-3"
+                onClick={(e) => e.stopPropagation()}
               >
-                <XIcon size={18} />
-              </button>
-            </div>
-          ))}
+                <div className="flex size-10 shrink-0 items-center justify-center rounded-md bg-(--color-grey-0) text-(--color-grey-400) shadow-sm cursor-not-allowed">
+                  <UploadIcon size={18} />
+                </div>
+
+                <div className="flex-1 min-w-0">
+                  {isEditing ? (
+                    <input
+                      autoFocus
+                      className="w-full truncate rounded border border-(--color-brand-600) bg-(--color-grey-0) px-1.5 py-0.5 text-lg font-bold text-(--color-grey-700) outline-none"
+                      value={renaming.name}
+                      onChange={(e) => setRenaming({ index, name: e.target.value })}
+                      onBlur={commitRename}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") commitRename();
+                        if (e.key === "Escape") setRenaming(null);
+                      }}
+                    />
+                  ) : (
+                    <p
+                      className="cursor-pointer truncate text-lg font-bold text-(--color-grey-700) hover:underline"
+                      title={`${file.name} — click to rename`}
+                      onClick={() => setRenaming({ index, name: file.name })}
+                    >
+                      {file.name}
+                    </p>
+                  )}
+                  <p className="text-base font-semibold text-(--color-grey-500)">{formatBytes(file.size)}</p>
+                </div>
+
+                <button
+                  type="button"
+                  aria-label={`Remove ${file.name}`}
+                  onClick={() => removeFile(index)}
+                  className="flex size-9 shrink-0 items-center justify-center rounded-md border border-(--color-grey-200) bg-(--color-grey-0) text-(--color-grey-500) transition-colors hover:border-red-200 hover:bg-red-50 hover:text-red-600"
+                >
+                  <XIcon size={18} />
+                </button>
+              </div>
+            );
+          })}
           <p className="text-base font-semibold text-(--color-grey-500)">Drag and drop or click to replace</p>
         </div>
       )}

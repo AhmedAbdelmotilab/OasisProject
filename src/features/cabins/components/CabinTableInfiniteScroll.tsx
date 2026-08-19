@@ -1,6 +1,5 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useEffect, useRef } from "react";
-import { FaPlus } from "react-icons/fa";
 import { useSearchParams } from "react-router-dom";
 import { Spinner } from "../../../components/Spinner";
 import { API } from "../../../config/API";
@@ -12,7 +11,7 @@ import styles from "./CabinTableInfiniteScroll.module.css";
 import UpdateCabinForm from "./UpdateCabinForm";
 
 export default function CabinTablePaginated() {
-  const { setShowOpenModal, showOpenModal, editingCabinId, setEditingCabinId } = useCabinsStore();
+  const { editingCabinId, setEditingCabinId } = useCabinsStore();
   const [searchParams] = useSearchParams();
   const sortBy = searchParams.get("sortBy") ?? "name-asc";
   const { data, isLoading, isError, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery({
@@ -51,29 +50,9 @@ export default function CabinTablePaginated() {
         <div>Description</div>
         <div>Price</div>
         <div>Discount</div>
-        <div>maxCapacity</div>
-        <div className={styles.addButton}>
-          <button
-            className={styles.button}
-            onClick={() => {
-              setShowOpenModal();
-              setEditingCabinId(null);
-            }}
-          >
-            <FaPlus /> {!showOpenModal ? "Add" : "close"}
-          </button>
-        </div>
+        <div>Capacity</div>
       </header>
       <div className={styles.body} ref={bodyRef}>
-        <button
-          className={styles.mobileAddButton}
-          onClick={() => {
-            setShowOpenModal();
-            setEditingCabinId(null);
-          }}
-        >
-          <FaPlus /> {!showOpenModal ? "Add" : "close"}
-        </button>
         {cabins.map((cabin) => (
           <CabinRow key={cabin.id} cabin={cabin} />
         ))}
