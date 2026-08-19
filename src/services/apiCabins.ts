@@ -27,7 +27,7 @@ export async function deleteCabinById(id: number) {
 }
 
 export async function uploadCabinImage(file: File): Promise<string> {
-  const fileName = `${Date.now()}-${file.name}`;
+  const fileName = `${file.name}`;
   const { error: uploadError } = await supabase.storage.from(CABIN_BUCKET).upload(fileName, file);
   if (uploadError) throw new Error(uploadError.message);
   return `${CABIN_BUCKET}/${fileName}`;
