@@ -2,6 +2,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { useEffect, useRef } from "react";
 import { FaWrench } from "react-icons/fa";
 import { useSearchParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { Spinner } from "../../../components/Spinner";
 import { API } from "../../../config/API";
 import Modal from "../../../layouts/Modal";
@@ -12,6 +13,7 @@ import styles from "./CabinTableInfiniteScroll.module.css";
 import UpdateCabinForm from "./UpdateCabinForm";
 
 export default function CabinTablePaginated() {
+  const { t } = useTranslation();
   const { editingCabinId } = useCabinsStore();
   const [searchParams] = useSearchParams();
   const sortBy = searchParams.get("sortBy") ?? "name-asc";
@@ -40,18 +42,18 @@ export default function CabinTablePaginated() {
   const cabins = data?.pages.flat() ?? [];
   const editingCabin = cabins.find((cabin) => cabin.id === editingCabinId);
 
-  if (isError && !isLoading) return <p>error while fetching the data</p>;
+  if (isError && !isLoading) return <p>{t("error while fetching the data")}</p>;
   if (isLoading) return <Spinner />;
 
   return (
     <div className={styles.table}>
       <header className={styles.header}>
-        <div>Image</div>
-        <div>Cabin</div>
-        <div>Description</div>
-        <div>Price</div>
-        <div>Discount</div>
-        <div>Capacity</div>
+        <div>{t("Image")}</div>
+        <div>{t("Cabin")}</div>
+        <div>{t("Description")}</div>
+        <div>{t("Price")}</div>
+        <div>{t("Discount")}</div>
+        <div>{t("Capacity")}</div>
         <div>
           <FaWrench />
         </div>
