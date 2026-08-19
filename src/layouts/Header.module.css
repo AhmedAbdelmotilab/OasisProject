@@ -7,6 +7,18 @@
   gap: 1.6rem;
 }
 
+.langWrapper {
+  position: relative;
+}
+
+[dir="ltr"] .langWrapper {
+  margin-left: auto;
+}
+
+[dir="rtl"] .langWrapper {
+  margin-right: auto;
+}
+
 .langBtn {
   display: flex;
   align-items: center;
@@ -21,17 +33,54 @@
   transition: all 0.2s;
 }
 
-[dir="ltr"] .langBtn {
-  margin-left: auto;
-}
-
-[dir="rtl"] .langBtn {
-  margin-right: auto;
-}
-
 .langBtn:hover {
   color: var(--color-grey-900);
   border-color: var(--color-grey-400);
+}
+
+.langList {
+  position: absolute;
+  top: calc(100% + 0.6rem);
+  right: 0;
+  list-style: none;
+  margin: 0;
+  padding: 0.4rem;
+  min-width: 16rem;
+  background: var(--color-grey-0);
+  border: 1px solid var(--color-grey-200);
+  border-radius: var(--border-radius-md);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+}
+
+[dir="rtl"] .langList {
+  right: auto;
+  left: 0;
+}
+
+.langOption {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  width: 100%;
+  padding: 0.7rem 1rem;
+  background: none;
+  border: none;
+  border-radius: var(--border-radius-sm);
+  cursor: pointer;
+  font-size: 1.4rem;
+  color: var(--color-grey-600);
+  transition: background-color 0.15s;
+}
+
+.langOption:hover {
+  background-color: var(--color-grey-100);
+}
+
+.langOptionActive {
+  background-color: var(--color-grey-100);
+  color: var(--color-grey-900);
+  font-weight: 600;
 }
 
 .menuBtn {
@@ -59,13 +108,5 @@
 
   .menuBtn {
     display: block;
-  }
-
-  .langLabel {
-    display: none;
-  }
-
-  .langBtn {
-    padding: 0.5rem;
   }
 }
