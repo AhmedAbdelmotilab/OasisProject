@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { FaPen, FaTrashAlt } from "react-icons/fa";
+import { useTranslation } from "react-i18next";
 import { deleteCabinById } from "../../../services/apiCabins";
 import { supabaseUrl } from "../../../services/supabase";
 import { formatCurrency } from "../../../utils/helpers";
@@ -13,13 +14,14 @@ interface CabinRowProps {
 }
 
 export default function CabinRow({ cabin }: CabinRowProps) {
+  const { t } = useTranslation();
   const { editingCabinId, setEditingCabinId, setShowOpenModal } = useCabinsStore();
   const queryClient = useQueryClient();
   const { mutate: deleteCabin, isPending } = useMutation({
     mutationKey: ["deleteCabin"],
     mutationFn: (id: number) => deleteCabinById(id),
     onSuccess: () => {
-      toast.success(`Cabin Was Successfully Deleted`);
+      toast.success(t("Cabin Was Successfully Deleted"));
       queryClient.invalidateQueries({ queryKey: ["cabins-paginated"] });
     },
     onError: (error: string) => {
@@ -46,7 +48,7 @@ export default function CabinRow({ cabin }: CabinRowProps) {
         <div className={styles.actions}>
           <button
             className={`${styles.iconBtn}`}
-            aria-label="Edit cabin"
+            aria-label={t("Edit cabin")}
             onClick={() => {
               const next = editingCabinId === cabin.id ? null : cabin.id;
               setEditingCabinId(next);
@@ -58,7 +60,7 @@ export default function CabinRow({ cabin }: CabinRowProps) {
           <button
             disabled={isPending}
             className={`${styles.iconBtn} ${styles.deleteBtn}`}
-            aria-label="Delete cabin"
+            aria-label={t("Delete cabin")}
             onClick={() => deleteCabin(cabin.id)}
           >
             <FaTrashAlt />
