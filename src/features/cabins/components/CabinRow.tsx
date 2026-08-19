@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
@@ -7,6 +8,7 @@ import { supabaseUrl } from "../../../services/supabase";
 import { formatCurrency } from "../../../utils/helpers";
 import type { Cabin } from "../../../utils/types";
 import { useCabinsStore } from "../store/useCabinsStore";
+import ImageModal from "./ImageModal";
 import styles from "./CabinRow.module.css";
 
 interface CabinRowProps {
@@ -17,6 +19,7 @@ export default function CabinRow({ cabin }: CabinRowProps) {
   const { t } = useTranslation();
   const { editingCabinId, setEditingCabinId, setShowOpenModal } = useCabinsStore();
   const queryClient = useQueryClient();
+  const [imageModalOpen, setImageModalOpen] = useState(false);
   const imageUrl = cabin.image.startsWith("http")
     ? cabin.image
     : `${supabaseUrl}/storage/v1/object/public/${cabin.image}`;
@@ -34,7 +37,19 @@ export default function CabinRow({ cabin }: CabinRowProps) {
   return (
     <>
       <div className={styles.row}>
-        <img className={styles.img} src={imageUrl} alt={cabin.name} />
+        <img
+          className={styles.img}
+          src={imageUrl}
+          alt={cabin.name}
+          onClick={() => setImageModalOpen(true)}
+          style={{ cursor: "pointer" }}
+        />
+        <ImageModal
+          isOpen={imageModalOpen}
+          onClose={() => setImageModalOpen(false)}
+          imageUrl={imageUrl}
+          alt={cabin.name}
+        />
         <div className={styles.cabin}>{cabin.name}</div>
         <div className={styles.description}>{cabin.description}</div>
         <div className={styles.price}>{formatCurrency(cabin.regularPrice)}</div>
