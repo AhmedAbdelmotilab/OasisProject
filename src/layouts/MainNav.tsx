@@ -6,11 +6,13 @@ import {
   HiOutlineUsers,
 } from "react-icons/hi2";
 import { NavLink } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { useUIStore } from "./store/useUIStore";
 import styles from "./MainNav.module.css";
 
 function MainNav() {
   const closeSidebar = useUIStore((s) => s.closeSidebar);
+  const { t } = useTranslation();
 
   return (
     <nav>
@@ -22,7 +24,7 @@ function MainNav() {
             onClick={closeSidebar}
           >
             <HiOutlineHome />
-            <span>Home</span>
+            <span>{t("Home")}</span>
           </NavLink>
         </li>
         <li>
@@ -32,7 +34,7 @@ function MainNav() {
             onClick={closeSidebar}
           >
             <HiOutlineCalendarDays />
-            <span>Bookings</span>
+            <span>{t("Bookings")}</span>
           </NavLink>
         </li>
         <li>
@@ -42,7 +44,7 @@ function MainNav() {
             onClick={closeSidebar}
           >
             <HiOutlineHomeModern />
-            <span>Cabins</span>
+            <span>{t("Cabins")}</span>
           </NavLink>
         </li>
         <li>
@@ -52,7 +54,7 @@ function MainNav() {
             onClick={closeSidebar}
           >
             <HiOutlineUsers />
-            <span>Users</span>
+            <span>{t("Users")}</span>
           </NavLink>
         </li>
         <li>
@@ -62,7 +64,7 @@ function MainNav() {
             onClick={closeSidebar}
           >
             <HiOutlineCog6Tooth />
-            <span>Settings</span>
+            <span>{t("Settings")}</span>
           </NavLink>
         </li>
       </ul>
