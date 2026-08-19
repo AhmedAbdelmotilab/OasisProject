@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
-import { FaPen, FaTrashAlt } from "react-icons/fa";
 import { useTranslation } from "react-i18next";
+import { FaPen, FaTrashAlt } from "react-icons/fa";
 import { deleteCabinById } from "../../../services/apiCabins";
 import { supabaseUrl } from "../../../services/supabase";
 import { formatCurrency } from "../../../utils/helpers";
@@ -17,6 +17,9 @@ export default function CabinRow({ cabin }: CabinRowProps) {
   const { t } = useTranslation();
   const { editingCabinId, setEditingCabinId, setShowOpenModal } = useCabinsStore();
   const queryClient = useQueryClient();
+  const imageUrl = cabin.image.startsWith("http")
+    ? cabin.image
+    : `${supabaseUrl}/storage/v1/object/public/${cabin.image}`;
   const { mutate: deleteCabin, isPending } = useMutation({
     mutationKey: ["deleteCabin"],
     mutationFn: (id: number) => deleteCabinById(id),
@@ -31,15 +34,7 @@ export default function CabinRow({ cabin }: CabinRowProps) {
   return (
     <>
       <div className={styles.row}>
-        <img
-          className={styles.img}
-          src={
-            cabin.image.startsWith("http")
-              ? cabin.image
-              : `${supabaseUrl}/storage/v1/object/public/${cabin.image}`
-          }
-          alt={cabin.name}
-        />
+        <img className={styles.img} src={imageUrl} alt={cabin.name} />
         <div className={styles.cabin}>{cabin.name}</div>
         <div className={styles.description}>{cabin.description}</div>
         <div className={styles.price}>{formatCurrency(cabin.regularPrice)}</div>
